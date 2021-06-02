@@ -1,0 +1,33 @@
+
+package com.company;
+
+class SuperHero{  //название классса
+    private static SuperHero SuperHero = new SuperHero(); // создание обЪекта класаа
+    private int weapon; // оружие
+
+    private SuperHero(){
+        this.weapon = 5;
+    }
+
+    public static SuperHero getInstance(){
+        return SuperHero;// возврат героя
+    }
+
+    public int getweapon(){
+        return weapon; // возврат ообмундирования
+    }
+
+    public void setweapon(int weapon){
+        this.weapon = weapon;//создание переменнной
+    }
+}
+
+public class Main{
+    public static void main(String[] args) {
+        SuperHero prCar = SuperHero.getInstance();
+        System.out.println(prCar.getweapon());
+        prCar.setweapon(9);
+        SuperHero prCar1 = SuperHero.getInstance();
+        System.out.println(prCar1.getweapon());
+    }
+}
