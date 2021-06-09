@@ -1,0 +1,91 @@
+package com.company;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) { // сделать на какие тв подписаны люди
+// write your code here
+        PeoplePublic ip = new PeoplePublic(); //создаем центральный процессор
+        Dashboard db = new Dashboard(ip); //создаем приборную панель
+
+        ip.changeData(10, 2000, 30);
+        ip.changeData(20, 2500, 40);
+        ip.changeData(60, 5000, 80);
+    }
+}
+interface Notifier{
+    public void addObserver(Observer obs);
+    public void removeObserver(Observer obs);
+    public void notifyObserver();
+}
+
+class PeoplePublic implements Notifier{
+    private List observers; // список наблюдателей
+    private int Cartoon; // скорость
+    private int pornHab; // обороты двигателя
+    private int Comedy; // давление масла
+
+    public PeoplePublic(){
+        observers = new ArrayList();
+    }
+
+    // добавить слушателя
+    public void addObserver(Observer obs) {
+        observers.add(obs);
+    }
+
+    // удалить слушателя
+    public void removeObserver(Observer obs) {
+        int i = observers.indexOf(obs);
+        if (i >= 0){
+            observers.remove(i);
+        }
+    }
+
+    // уведомить слушателей
+    public void notifyObserver() {
+        for (int i = 0; i < observers.size(); i++){
+            Observer obs = (Observer)observers.get(i);
+            obs.update(Cartoon, pornHab, Comedy);
+        }
+    }
+
+    public void changeData(int Cartoon, int pornHab, int Comedy){ // метод для изменения характеристик при движении автомобиля
+        this.Comedy = Comedy;
+        this.pornHab = pornHab;
+        this.Cartoon= Cartoon;
+        notifyObserver(); // уведомляем слушателей об изменениях
+    }
+
+}
+
+interface Observer{
+    public void update(int Cartoon, int pornHab, int comedy);
+}
+
+class Dashboard implements Observer{
+    private Notifier notifier;
+    private int Cartoon; // скорость
+    private int pornHab; // обороты двигателя
+    private int comedy; // давление масла
+
+    public Dashboard(Notifier notifier){
+        this.notifier = notifier;
+        notifier.addObserver(this); // регистрируем приборную панель в качестве наблюдателя
+    }
+
+    public void update(int Cartoon, int pornHab, int comedy) {// сохраняет  полученную инфу и выводит методом show
+        this.Cartoon = Cartoon;
+        this.pornHab = pornHab;
+        this.comedy = comedy;
+        show();
+    }
+
+    // отображение на приборной панели информации
+    public void show(){
+        System.out.println("Cartoon = " + Cartoon + ", pornHab = " + pornHab +
+                ", comedy = " + comedy);
+    }
+
+}
